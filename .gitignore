@@ -1,0 +1,7 @@
+*.hzs
+/.settings
+*.launch
+/Debug/
+/Release/
+*THUMB Debug/
+*THUMB Release/
