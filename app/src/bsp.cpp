@@ -12,6 +12,7 @@ FunctionQueue fq(16);
 
 void initializeBoard(void)
 {
-
+	// LED 초기화
+	Led::initialize();
 }
 

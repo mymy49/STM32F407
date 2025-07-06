@@ -11,7 +11,10 @@
 #include <util/runtime.h>
 #include <yss/debug.h>
 
-void thread_blinkLed(void);
+void thread_blinkGreenLed(void);
+void thread_blinkOrangeLed(void);
+void thread_blinkRedLed(void);
+void thread_blinkBlueLed(void);
 
 int main(void)
 {
@@ -25,7 +28,10 @@ int main(void)
 	fq.start();
 	
 	// LED 깜박이는 쓰레드를 스케줄러에 등록
-	thread::add(thread_blinkLed, 512);
+	thread::add(thread_blinkGreenLed, 512);
+	thread::add(thread_blinkOrangeLed, 512);
+	thread::add(thread_blinkRedLed, 512);
+	thread::add(thread_blinkBlueLed, 512);
 
 	while(1)
 	{
@@ -34,11 +40,46 @@ int main(void)
 	}
 }
 
-void thread_blinkLed(void)
+void thread_blinkGreenLed(void)
 {
 	while(1)
 	{
-		thread::yield();
+		Led::setGreen(true);
+		thread::delay(250);
+		Led::setGreen(false);
+		thread::delay(250);
 	}
 }
 
+void thread_blinkOrangeLed(void)
+{
+	while(1)
+	{
+		Led::setOrange(true);
+		thread::delay(500);
+		Led::setOrange(false);
+		thread::delay(500);
+	}
+}
+
+void thread_blinkRedLed(void)
+{
+	while(1)
+	{
+		Led::setRed(true);
+		thread::delay(1000);
+		Led::setRed(false);
+		thread::delay(1000);
+	}
+}
+
+void thread_blinkBlueLed(void)
+{
+	while(1)
+	{
+		Led::setBlue(true);
+		thread::delay(2000);
+		Led::setBlue(false);
+		thread::delay(2000);
+	}
+}
