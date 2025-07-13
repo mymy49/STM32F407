@@ -10,11 +10,16 @@
 #include <task.h>
 #include <util/runtime.h>
 #include <yss/debug.h>
+#include <string.h>
 
 void thread_blinkGreenLed(void);
 void thread_blinkOrangeLed(void);
 void thread_blinkRedLed(void);
 void thread_blinkBlueLed(void);
+void thread_sendUart(void *var);
+
+const char *gHelloWord = "Hello Word!!\n\r";
+uint32_t gSize = strlen(gHelloWord);
 
 int main(void)
 {
@@ -33,10 +38,28 @@ int main(void)
 	thread::add(thread_blinkRedLed, 512);
 	thread::add(thread_blinkBlueLed, 512);
 
+	// USART 전송 쓰레드 추가
+	thread::add(thread_sendUart, &usart2, 512);
+	thread::add(thread_sendUart, &usart3, 512);
+	thread::add(thread_sendUart, &uart4, 512);
+	thread::add(thread_sendUart, &uart5, 512);
+	thread::add(thread_sendUart, &usart6, 512);
+
 	while(1)
 	{
 		debug_printf("%d\r", (uint32_t)runtime::getMsec());
 		thread::yield();
+	}
+}
+
+void thread_sendUart(void *var)
+{
+	Uart *uart = (Uart*)var;
+	while(1)
+	{
+		uart->lock();
+		uart->send(gHelloWord, gSize);
+		uart->unlock();
 	}
 }
 

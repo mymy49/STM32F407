@@ -23,7 +23,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////////////////
 
-// STM32F446xx 계열에서 유효한 설정이 담긴 참고용 파일이다.
+// STM32F407xx 계열에서 유효한 설정이 담긴 참고용 파일이다.
 // 해당 파일을 사용자 프로젝트의 include 경로에 복사하고 config.h로 변경한다.
 
 #ifndef YSS_CONFIG__H_
@@ -43,7 +43,7 @@
 #define THREAD_GIVEN_CLOCK	20000
 
 // 최대 등록 가능한 쓰레드의 수
-#define MAX_THREAD			10
+#define MAX_THREAD			16
 
 // 쓰레드의 스택을 0xAA 패턴으로 채우기 (true, false)
 #define FILL_THREAD_STACK	false
@@ -61,7 +61,7 @@
 //
 // 주의 
 // 1. TIMER, PWM, CAPTURE는 실제 동일한 장치지만 OS 구조상 별도의 장치로 표현한다. 그러므로 동일한 번호의 TIMER, PWM, CAPTURE는 동시에 활성화 되지 못한다.
-
+/*
 // ADC 활성화
 #define ADC1_ENABLE			false
 #define ADC2_ENABLE			false
@@ -152,14 +152,14 @@
 #define TIM12_ENABLE		false
 #define TIM13_ENABLE		false
 #define TIM14_ENABLE		false
-
+*/
 // UART 활성화
 #define USART1_ENABLE		false
 #define USART2_ENABLE		true
-#define USART3_ENABLE		false
-#define UART4_ENABLE		false
-#define UART5_ENABLE		false
-#define USART6_ENABLE		false
+#define USART3_ENABLE		true
+#define UART4_ENABLE		true
+#define UART5_ENABLE		true
+#define USART6_ENABLE		true
 
 #endif
 
