@@ -100,21 +100,18 @@
 #define I2S1_ENABLE			false
 #define I2S2_ENABLE			false		// DMA1_CH4(TX), DMA1_CH3(RX) 고정
 #define I2S3_ENABLE			false
-
+*/
 // PWM 활성화
 #define PWM1_ENABLE			false
-#define PWM2_ENABLE			true
-#define PWM3_ENABLE			true
-#define PWM4_ENABLE			false
+#define PWM2_ENABLE			false
+#define PWM3_ENABLE			false
+#define PWM4_ENABLE			true
 #define PWM5_ENABLE			false
 #define PWM8_ENABLE			false
 #define PWM9_ENABLE			false
 #define PWM10_ENABLE		false
 #define PWM11_ENABLE		false
-#define PWM12_ENABLE		false
-#define PWM13_ENABLE		false
-#define PWM14_ENABLE		false
-
+/*
 // QENCODER 활성화
 #define QENCODER1_ENABLE	false
 #define QENCODER2_ENABLE	false
@@ -130,13 +127,12 @@
 // SDMMC 활성화
 #define SDMMC_ENABLE		false
 #define SDMMC_DMA_TRX		DMA2_CH3	// DMA2_CH3, DMA2_CH6 가능
-
+*/
 // SPI 활성화
 #define SPI1_ENABLE			true
 #define SPI2_ENABLE			false
 #define SPI3_ENABLE			false
-#define SPI4_ENABLE			false
-
+/*
 // TIMER 활성화
 #define TIM1_ENABLE			false
 #define TIM2_ENABLE			false

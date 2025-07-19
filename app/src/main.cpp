@@ -23,6 +23,9 @@ uint32_t gSize = strlen(gHelloWord);
 
 int main(void)
 {
+	Accelerometer3D::accData_t accData;
+	float ratio;
+
 	// 운영체체 초기화
 	initializeYss();
 	
@@ -32,34 +35,45 @@ int main(void)
 	// Function Queue 기능을 활용하여 순차 처리를 한다.
 	fq.start();
 	
-	// LED 깜박이는 쓰레드를 스케줄러에 등록
-	thread::add(thread_blinkGreenLed, 512);
-	thread::add(thread_blinkOrangeLed, 512);
-	thread::add(thread_blinkRedLed, 512);
-	thread::add(thread_blinkBlueLed, 512);
-
-	// USART 전송 쓰레드 추가
-	thread::add(thread_sendUart, &usart2, 512);
-	thread::add(thread_sendUart, &usart3, 512);
-	thread::add(thread_sendUart, &uart4, 512);
-	thread::add(thread_sendUart, &uart5, 512);
-	thread::add(thread_sendUart, &usart6, 512);
-
 	while(1)
 	{
-		debug_printf("%d\r", (uint32_t)runtime::getMsec());
 		thread::yield();
-	}
-}
+		accData = accelerometer.getAccData();
+		
+		if(accData.x > 0.f)
+		{
+			ratio = accData.x / 9.2f;
+			if(ratio > 1.f)
+				ratio = 1.f;
+			pwm4Ch4.setDutyRatio(ratio);
+			pwm4Ch2.setDutyRatio(0);
+		}
+		else
+		{
+			ratio = accData.x / 9.2f * -1.f;
+			if(ratio > 1.f)
+				ratio = 1.f;
+			pwm4Ch4.setDutyRatio(0);
+			pwm4Ch2.setDutyRatio(ratio);
+		}
 
-void thread_sendUart(void *var)
-{
-	Uart *uart = (Uart*)var;
-	while(1)
-	{
-		uart->lock();
-		uart->send(gHelloWord, gSize);
-		uart->unlock();
+		if(accData.y > 0.f)
+		{
+			ratio = accData.y / 9.2f;
+			if(ratio > 1.f)
+				ratio = 1.f;
+			pwm4Ch3.setDutyRatio(ratio);
+			pwm4Ch1.setDutyRatio(0);
+		}
+		else
+		{
+			ratio = accData.y / 9.2f * -1.f;
+			if(ratio > 1.f)
+				ratio = 1.f;
+			pwm4Ch3.setDutyRatio(0);
+			pwm4Ch1.setDutyRatio(ratio);
+		}
+
 	}
 }
 

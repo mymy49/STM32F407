@@ -12,10 +12,14 @@
 
 #include <dev/dev_led.h>
 
+#include <mod/sensor/accelerometer/LIS302DL.h>
+
 // 보드의 장치들을 초기화 한다.
 void initializeBoard(void);
 
 extern FunctionQueue fq;
+
+extern LIS302DL accelerometer;
 
 #endif
 
