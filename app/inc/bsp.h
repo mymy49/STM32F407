@@ -14,12 +14,16 @@
 
 #include <mod/sensor/accelerometer/LIS302DL.h>
 
+#include <util/EulerAngle2Axis.h>
+
 // 보드의 장치들을 초기화 한다.
 void initializeBoard(void);
 
 extern FunctionQueue fq;
 
 extern LIS302DL accelerometer;
+
+extern EulerAngle2Axis angle;
 
 #endif
 

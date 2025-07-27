@@ -18,12 +18,9 @@ void thread_blinkRedLed(void);
 void thread_blinkBlueLed(void);
 void thread_sendUart(void *var);
 
-const char *gHelloWord = "Hello Word!!\n\r";
-uint32_t gSize = strlen(gHelloWord);
-
 int main(void)
 {
-	Accelerometer3D::accData_t accData;
+	EulerAngle2Axis::angle_t data;
 	float ratio;
 
 	// 운영체체 초기화
@@ -32,48 +29,24 @@ int main(void)
 	// 보드 초기화
 	initializeBoard();
 
+	// LED 깜박이는 쓰레드를 스케줄러에 등록
+	thread::add(thread_blinkGreenLed, 512);
+	thread::add(thread_blinkOrangeLed, 512);
+	thread::add(thread_blinkRedLed, 512);
+	thread::add(thread_blinkBlueLed, 512);
+	
 	// Function Queue 기능을 활용하여 순차 처리를 한다.
 	fq.start();
-	
+
 	while(1)
 	{
 		thread::yield();
-		accData = accelerometer.getAccData();
-		
-		if(accData.x > 0.f)
-		{
-			ratio = accData.x / 9.2f;
-			if(ratio > 1.f)
-				ratio = 1.f;
-			pwm4Ch4.setDutyRatio(ratio);
-			pwm4Ch2.setDutyRatio(0);
-		}
-		else
-		{
-			ratio = accData.x / 9.2f * -1.f;
-			if(ratio > 1.f)
-				ratio = 1.f;
-			pwm4Ch4.setDutyRatio(0);
-			pwm4Ch2.setDutyRatio(ratio);
-		}
 
-		if(accData.y > 0.f)
+		if(angle.isUpdated())
 		{
-			ratio = accData.y / 9.2f;
-			if(ratio > 1.f)
-				ratio = 1.f;
-			pwm4Ch3.setDutyRatio(ratio);
-			pwm4Ch1.setDutyRatio(0);
+			data = angle.getAngle();
+			debug_printf("%f, %f\n", data.roll, data.pitch);
 		}
-		else
-		{
-			ratio = accData.y / 9.2f * -1.f;
-			if(ratio > 1.f)
-				ratio = 1.f;
-			pwm4Ch3.setDutyRatio(0);
-			pwm4Ch1.setDutyRatio(ratio);
-		}
-
 	}
 }
 
