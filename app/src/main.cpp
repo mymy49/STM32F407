@@ -10,7 +10,6 @@
 #include <task.h>
 #include <util/runtime.h>
 #include <yss/debug.h>
-#include <string.h>
 
 void thread_blinkGreenLed(void);
 void thread_blinkOrangeLed(void);
@@ -45,7 +44,7 @@ int main(void)
 		if(angle.isUpdated())
 		{
 			data = angle.getAngle();
-			debug_printf("%f, %f\n", data.roll, data.pitch);
+			debug_printf("roll = %5.1f, pitch = %5.1f\n", data.roll, data.pitch);
 		}
 	}
 }
