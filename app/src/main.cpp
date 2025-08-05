@@ -17,6 +17,8 @@ void thread_blinkRedLed(void);
 void thread_blinkBlueLed(void);
 void thread_sendUart(void *var);
 
+uint16_t gPcmBuf[512];
+
 int main(void)
 {
 	EulerAngle2Axis::angle_t data;
@@ -36,16 +38,15 @@ int main(void)
 	
 	// Function Queue 기능을 활용하여 순차 처리를 한다.
 	fq.start();
+	
+	debug_printf("lrclk = %d\n", i2s3.getLrclkFrequency());
+	debug_printf("mclk = %d\n", i2s3.getMclkFrequency());
+
+	i2s3.transfer(gPcmBuf, 512);
 
 	while(1)
 	{
 		thread::yield();
-
-		if(angle.isUpdated())
-		{
-			data = angle.getAngle();
-			debug_printf("roll = %5.1f, pitch = %5.1f\n", data.roll, data.pitch);
-		}
 	}
 }
 
