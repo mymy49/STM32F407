@@ -16,11 +16,6 @@
 // 정의되어 있지 않으면 HSI 클럭을 소스로 PLL 설정이 이뤄집니다.
 #define HSE_CLOCK_FREQ		8000000
 
-// ####################### I2S_CKIN 클럭 주파수 설정 #######################
-// 아래 I2S_CKIN_CLOCK_FREQ가 정의 되어 있으면 코드 내에서 I2S_CKIN 클럭을 사용시 주파수 계산에 활용합니다.
-// I2S의 클럭 소스로 외부 클럭을 사용할 경우 반드시 설정되야 합니다.
-//#define I2S_CKIN_CLOCK_FREQ	12288000
-
 // ####################### 스케줄러 설정 #######################
 // runtime 함수를 지원할 PWM 장치 설정 (RUNTIME_TIM2 ~ RUNTIME_TIM14)
 // RUNTIME_TIM1, RUNTIME_TIM6, RUNTIME_TIM7, RUNTIME_TIM8, RUNTIME_TIM10, RUNTIME_TIM13은 사용이 불가능 합니다.
@@ -77,19 +72,17 @@
 
 // DAC 활성화
 #define DAC1_ENABLE			true
-*/
+
 // I2C 활성화
-#define I2C1_ENABLE			true
+#define I2C1_ENABLE			false
 #define I2C2_ENABLE			false
 #define I2C3_ENABLE			false
 
 // I2S 활성화
 #define I2S1_ENABLE			false
 #define I2S2_ENABLE			false		// DMA1_CH4(TX), DMA1_CH3(RX) 고정
-#define I2S3_ENABLE			true
-#define I2S3_DMA_TX			DMA1_CH5	// DMA1_CH5, DMA1_CH7
-#define I2S3_DMA_RX			DMA1_CH0	// DMA1_CH0, DMA1_CH2
-
+#define I2S3_ENABLE			false
+*/
 // PWM 활성화
 #define PWM1_ENABLE			false
 #define PWM2_ENABLE			false
