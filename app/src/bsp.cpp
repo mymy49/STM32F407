@@ -11,13 +11,7 @@
 
 FunctionQueue fq(16);
 
-LIS302DL accelerometer;
-
-EulerAngle2Axis angle;
-
-
-// PB6 I2C1 SCL
-// PB7 I2C1 SDA
+ToneGenerator gen(i2s3);
 
 void initializeBoard(void)
 {
@@ -64,6 +58,9 @@ void initializeBoard(void)
 	i2s3.enableClock();
 	i2s3.initialize(i2s3Config);
 	i2s3.enableInterrupt();
+
+	// Tone Generator 초기화
+	gen.initialize();
 }
 
 void initializeSystem(void)
