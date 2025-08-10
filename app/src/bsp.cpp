@@ -13,6 +13,8 @@ FunctionQueue fq(16);
 
 ToneGenerator gen(i2s3);
 
+CS43L22 dac;
+
 void initializeBoard(void)
 {
 	// LED 초기화
@@ -29,7 +31,7 @@ void initializeBoard(void)
 
 	// I2C1 초기화
 	gpioB.setAsAltFunc(6, Gpio::PB6_I2C1_SCL, Gpio::OSPEED_MID, Gpio::OTYPE_OPEN_DRAIN);
-	gpioB.setAsAltFunc(7, Gpio::PB7_I2C1_SDA, Gpio::OSPEED_MID, Gpio::OTYPE_OPEN_DRAIN);
+	gpioB.setAsAltFunc(9, Gpio::PB9_I2C1_SDA, Gpio::OSPEED_MID, Gpio::OTYPE_OPEN_DRAIN);
 
 	I2c::config_t i2c1Config = 
 	{
@@ -37,7 +39,9 @@ void initializeBoard(void)
 		I2c::SPEED_STANDARD,	//speed_t speed;			// 통신 속도 (Main 전용)
 	};
 
+	i2c1.enableClock();
 	i2c1.initialize(i2c1Config);
+	i2c1.enableInterrupt();
 
 	// I2S3 초기화
 	gpioC.setAsAltFunc(7, Gpio::PC7_I2S3_MCK);
@@ -47,17 +51,30 @@ void initializeBoard(void)
 
 	I2s::config_t i2s3Config = 
 	{
-		I2s::MODE_MAIN_TX,	//mode_t mode;
-		I2s::BIT_16BIT,		//dataBit_t dataBit;
-		I2s::CHLEN_16BIT,	//chlen_t chlen;
-		I2s::STD_PHILIPS,	//std_t std;
-		48000,				//int32_t sampleRate;
-		true				//bool mckoe;
+		I2s::MODE_MAIN_TX,		//mode_t mode;
+		I2s::WORD_WIDTH_16BIT,	//wordWidth_t wordWidth;
+		I2s::CHLEN_16BIT,		//chlen_t chlen;
+		I2s::STD_I2S_PHILIPS,	//std_t std;
+		48000,					//int32_t sampleRate;
+		true					//bool mckoe;
 	};
 
 	i2s3.enableClock();
 	i2s3.initialize(i2s3Config);
 	i2s3.enableInterrupt();
+
+	// CS43L22 초기화
+	gpioD.setAsOutput(4);
+	
+	CS43L22::config_t dacConfig = 
+	{
+		i2c1,				//I2c &i2c;
+		i2s3,				//I2s &i2s;
+		{&gpioD, 4},		//pin_t resetPin;
+		CS43L22::AD0_LOW	//ad0_t ad0;
+	};
+	
+	dac.initialize(dacConfig);
 
 	// Tone Generator 초기화
 	gen.initialize();

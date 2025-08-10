@@ -13,6 +13,7 @@
 #include <dev/dev_led.h>
 
 #include <mod/sensor/accelerometer/LIS302DL.h>
+#include <mod/audio/dac/CS43L22.h>
 
 #include <util/EulerAngle2Axis.h>
 #include <util/ToneGenerator.h>
@@ -23,6 +24,7 @@ void initializeBoard(void);
 extern FunctionQueue fq;
 
 extern LIS302DL accelerometer;
+extern CS43L22 dac;
 
 extern EulerAngle2Axis angle;
 extern ToneGenerator gen;
